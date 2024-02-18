@@ -10,7 +10,7 @@
       >
         <app-drag
           :data-transfer="ingredientType"
-          :draggable="getValue(ingredientType.value) < MAX_INGREDIENT_COUNT"
+          :draggable="values[ingredientType.id] < MAX_INGREDIENT_COUNT"
         >
           <div class="filling">
             <img
@@ -21,31 +21,13 @@
           </div>
         </app-drag>
 
-        <div class="counter ingredients__counter">
-          <button
-            type="button"
-            class="counter__button counter__button--minus"
-            :disabled="getValue(ingredientType.value) === 0"
-            @click="decrementValue(ingredientType.value)"
-          >
-            <span class="visually-hidden">Меньше</span>
-          </button>
-          <input
-            type="text"
-            name="counter"
-            class="counter__input"
-            :value="getValue(ingredientType.value)"
-            @input="inputValue(ingredientType.value, $event.target.value)"
-          />
-          <button
-            type="button"
-            class="counter__button counter__button--plus"
-            :disabled="getValue(ingredientType.value) === MAX_INGREDIENT_COUNT"
-            @click="incrementValue(ingredientType.value)"
-          >
-            <span class="visually-hidden">Больше</span>
-          </button>
-        </div>
+        <app-counter
+          class="ingredients__counter"
+          :value="values[ingredientType.id]"
+          :min="0"
+          :max="MAX_INGREDIENT_COUNT"
+          @input="inputValue(ingredientType.id, $event)"
+        />
       </li>
     </ul>
   </div>
@@ -55,6 +37,7 @@
 import { toRef } from "vue";
 import AppDrag from "@/common/components/AppDrag.vue";
 import { MAX_INGREDIENT_COUNT } from "@/common/constants";
+import AppCounter from "@/common/components/AppCounter.vue";
 
 const props = defineProps({
   values: {
@@ -69,20 +52,8 @@ const props = defineProps({
 const emit = defineEmits(["update"]);
 const values = toRef(props, "values");
 
-const getValue = (ingredient) => {
-  return values.value[ingredient] ?? 0;
-};
-
 const setValue = (ingredient, count) => {
   emit("update", ingredient, Number(count));
-};
-
-const decrementValue = (ingredient) => {
-  setValue(ingredient, getValue(ingredient) - 1);
-};
-
-const incrementValue = (ingredient) => {
-  setValue(ingredient, getValue(ingredient) + 1);
 };
 
 const inputValue = (ingredient, count) => {

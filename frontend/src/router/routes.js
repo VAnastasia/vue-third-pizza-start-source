@@ -42,4 +42,10 @@ export const routes = [
       },
     ],
   },
+  {
+    path: "/success",
+    name: "success",
+    component: () => import("@/views/SuccessView.vue"),
+    meta: { layout: "SimpleLayout" },
+  },
 ];
