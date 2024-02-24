@@ -19,7 +19,7 @@ export default defineConfig({
     port: 8080,
     proxy: {
       "/api": {
-        target: "https://pizza.vue.pages.academy/", // "http://backend:3000/"
+        target: "https://pizza.vue.htmlacademy.pro/", // "http://backend:3000/"
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ""),
       },

@@ -1,3 +1,5 @@
+import { isLoggedIn } from "@/middlewares/isLoggedIn";
+
 export const routes = [
   {
     path: "",
@@ -20,7 +22,7 @@ export const routes = [
   {
     path: "/user",
     name: "user",
-    meta: { layout: "DefaultLayout" },
+    meta: { layout: "DefaultLayout", middlewares: [isLoggedIn] },
     component: () => import("@/views/UserView.vue"),
     /*
      * В шаблонах использована одна и та же страница,
